@@ -4,7 +4,6 @@ import vimification.commons.core.Index;
 import vimification.internal.command.CommandException;
 import vimification.internal.command.CommandResult;
 import vimification.model.LogicTaskList;
-import vimification.model.task.Task;
 
 import static java.util.Objects.requireNonNull;
 
@@ -38,9 +37,9 @@ public class EditTitleCommand extends UndoableLogicCommand {
     public CommandResult execute(LogicTaskList taskList)
             throws IndexOutOfBoundsException, CommandException {
         requireNonNull(taskList);
-        Task editedTask = taskList.get(targetIndex.getZeroBased());
-        oldTitle = editedTask.getTitle();
-        editedTask.setTitle(newTitle);
+        int zero_based_index = targetIndex.getZeroBased();
+        oldTitle = taskList.getTitle(zero_based_index);
+        taskList.setTitle(zero_based_index, newTitle);
         return new CommandResult(String.format(SUCCESS_MESSAGE_FORMAT, targetIndex.getOneBased()));
     }
 
@@ -48,7 +47,8 @@ public class EditTitleCommand extends UndoableLogicCommand {
     public CommandResult undo(LogicTaskList taskList)
             throws IndexOutOfBoundsException, CommandException {
         requireNonNull(taskList);
-        taskList.get(targetIndex.getZeroBased()).setTitle(oldTitle);
+        int zero_based_index = targetIndex.getZeroBased();
+        taskList.setTitle(zero_based_index, oldTitle);
         return new CommandResult(UNDO_MESSAGE);
     }
 }

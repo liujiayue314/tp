@@ -1,36 +1,32 @@
 package vimification.internal.command.view;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import vimification.internal.command.CommandException;
 import vimification.internal.command.CommandResult;
 import vimification.model.LogicTaskList;
-import vimification.model.oldcode.Deadline;
 import vimification.model.task.Task;
 
-import java.time.LocalDateTime;
+import static java.util.Objects.requireNonNull;
 
-public class SearchByDateBefore extends SearchCommand {
-    public static final String COMMAND_WORD = "s -d -before";
+public class FilterByLabel extends FilterCommand {
+    public static final String COMMAND_WORD = "f -l";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": search for tasks that have deadline before (inclusive) the input date.\n"
-            + "Parameters: DATETIME \n"
-            + "Conditions: Date time must be valid in the format of YYYY-MM-DD.\n"
-            + "Example: " + COMMAND_WORD + " 2023-01-01";
+            + ": search for tasks with labels matching the input label.\n"
+            + "Parameters: LABEL \n"
+            + "Example: " + COMMAND_WORD + " cs2103T";
 
-    public SearchByDateBefore(LocalDateTime date) {
-        super(task -> task.isDateBefore(date));
+    public FilterByLabel(String label) {
+        super(task -> task.containsLabel(label));
     }
 
     @Override
     public CommandResult execute(LogicTaskList taskList) throws CommandException {
+        requireNonNull(taskList);
         ObservableList<Task> viewTaskList =
                 FXCollections.observableList(taskList.filter(getPredicate()));
         setViewTaskList(viewTaskList);
         return new CommandResult(SUCCESS_MESSAGE_FORMAT);
     }
-
 }
-

@@ -41,6 +41,7 @@ public class InsertDeadlineCommand extends UndoableLogicCommand {
             throws IndexOutOfBoundsException, CommandException {
         requireNonNull(taskList);
         int zero_based_index = targetIndex.getZeroBased();
+        oldDeadline = taskList.getDeadline(zero_based_index);
         taskList.setDeadline(zero_based_index, newDeadline);
         return new CommandResult(String.format(SUCCESS_MESSAGE_FORMAT, targetIndex.getOneBased()));
     }

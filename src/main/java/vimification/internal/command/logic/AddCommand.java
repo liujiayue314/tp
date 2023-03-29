@@ -35,21 +35,15 @@ public class AddCommand extends UndoableLogicCommand {
     @Override
     public CommandResult execute(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
-        taskList.add(newTask);
+        taskList.addTask(newTask);
         return new CommandResult(String.format(SUCCESS_MESSAGE_FORMAT, newTask));
     }
 
     @Override
     public CommandResult undo(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
-        taskList.pop();
+        taskList.deleteTask(taskList.size() - 1);
         return new CommandResult(UNDO_MESSAGE);
     }
 
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof AddCommand // instanceof handles nulls
-                        && newTask.equals(((AddCommand) other).newTask));
-    }
 }

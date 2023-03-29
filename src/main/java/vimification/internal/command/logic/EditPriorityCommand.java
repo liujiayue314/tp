@@ -7,7 +7,6 @@ import vimification.internal.command.CommandException;
 import vimification.internal.command.CommandResult;
 import vimification.model.LogicTaskList;
 import vimification.model.task.Priority;
-import vimification.model.task.Task;
 
 public class EditPriorityCommand extends UndoableLogicCommand {
     public static final String COMMAND_WORD = "-p";
@@ -43,16 +42,17 @@ public class EditPriorityCommand extends UndoableLogicCommand {
     @Override
     public CommandResult execute(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
-        Task editedTask = taskList.get(targetIndex.getZeroBased());
-        oldPriority = editedTask.getPriority();
-        editedTask.setPriority(newPriority);
+        int zero_based_index = targetIndex.getZeroBased();
+        oldPriority = taskList.getPriority(zero_based_index);
+        taskList.setPriority(zero_based_index, newPriority);
         return new CommandResult(String.format(SUCCESS_MESSAGE_FORMAT, targetIndex.getOneBased()));
     }
 
     @Override
     public CommandResult undo(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
-        taskList.get(targetIndex.getZeroBased()).setPriority(oldPriority);
+        int zero_based_index = targetIndex.getZeroBased();
+        taskList.setPriority(zero_based_index, oldPriority);
         return new CommandResult(UNDO_MESSAGE);
     }
 }

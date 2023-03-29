@@ -7,8 +7,6 @@ import vimification.internal.command.CommandException;
 import vimification.internal.command.CommandResult;
 import vimification.model.LogicTaskList;
 import vimification.model.task.Status;
-import vimification.model.task.Task;
-
 public class EditStatusCommand extends UndoableLogicCommand {
     public static final String COMMAND_WORD = "e -s";
 
@@ -39,16 +37,17 @@ public class EditStatusCommand extends UndoableLogicCommand {
     @Override
     public CommandResult execute(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
-        Task editedTask = taskList.get(targetIndex.getZeroBased());
-        oldStatus = editedTask.getStatus();
-        editedTask.setStatus(newStatus);
+        int zero_based_index = targetIndex.getZeroBased();
+        oldStatus = taskList.getStatus(zero_based_index);
+        taskList.setStatus(zero_based_index, newStatus);
         return new CommandResult(String.format(SUCCESS_MESSAGE_FORMAT, targetIndex.getOneBased()));
     }
 
     @Override
     public CommandResult undo(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
-        taskList.get(targetIndex.getZeroBased()).setStatus(oldStatus);
+        int zero_based_index = targetIndex.getZeroBased();
+        taskList.setStatus(zero_based_index, oldStatus);
         return new CommandResult(UNDO_MESSAGE);
     }
 }

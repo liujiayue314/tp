@@ -5,35 +5,35 @@ import vimification.internal.command.CommandException;
 import vimification.internal.command.CommandResult;
 import vimification.model.LogicTaskList;
 
-import java.time.LocalDateTime;
-
 import static java.util.Objects.requireNonNull;
 
-public class EditDeadlineCommand extends UndoableLogicCommand {
-    public static final String COMMAND_WORD = "e -d";
+public class EditLabelCommand extends UndoableLogicCommand{
+    public static final String COMMAND_WORD = "e -l";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Edit the deadline of a task.\n"
+            + ": Edit the label of a task.\n"
             + "Parameters: INDEX (index number of the target task in the displayed task list)\n"
-            + "          : DEADLINE\n"
+            + "          : NAME of label to be edited\n"
+            + "          : NAME of new label\n"    
             + "Conditions: Index must be positive integer and cannot exceed total number of tasks.\n"
-            + "          : Date time must be valid in the format of YYYY-MM-DD.\n"
+            + "          : Name of label cannot be empty. "
+            + "          : Name of label to be edited must match exactly with an existing lable\n"
             + "Example: " + COMMAND_WORD + " 1" + " 2023-01-01";
 
     public static final String SUCCESS_MESSAGE_FORMAT =
-            "Deadline of task %1$s updated.";
+            "Label of task %1$s updated.";
     public static final String UNDO_MESSAGE =
-            "The command has been undone. The deadline of the task has been changed back.";
+            "The command has been undone. The label of the task has been changed back.";
 
     private final Index targetIndex;
-    private final LocalDateTime newDeadline;
-    private LocalDateTime oldDeadline;
+    private final String newLabel;
+    private String oldLabel;
 
 
-    public EditDeadlineCommand(Index targetIndex, LocalDateTime newDeadline) {
+    public EditLabelCommand(Index targetIndex, String oldLabel, String newLabel) {
         this.targetIndex = targetIndex;
-        this.newDeadline = newDeadline;
-        this.oldDeadline = null;
+        this.newLabel = newLabel;
+        this.oldLabel = oldLabel;
     }
 
     @Override
@@ -41,8 +41,8 @@ public class EditDeadlineCommand extends UndoableLogicCommand {
             throws IndexOutOfBoundsException, CommandException {
         requireNonNull(taskList);
         int zero_based_index = targetIndex.getZeroBased();
-        oldDeadline = taskList.getDeadline(zero_based_index);
-        taskList.setDeadline(zero_based_index, newDeadline);
+        taskList.deleteLabel(zero_based_index, oldLabel);
+        taskList.addLabel(zero_based_index, newLabel);
         return new CommandResult(String.format(SUCCESS_MESSAGE_FORMAT, targetIndex.getOneBased()));
     }
 
@@ -51,7 +51,8 @@ public class EditDeadlineCommand extends UndoableLogicCommand {
             throws IndexOutOfBoundsException, CommandException {
         requireNonNull(taskList);
         int zero_based_index = targetIndex.getZeroBased();
-        taskList.setDeadline(zero_based_index, oldDeadline);
+        taskList.deleteLabel(zero_based_index, newLabel);
+        taskList.addLabel(zero_based_index, oldLabel);
         return new CommandResult(UNDO_MESSAGE);
     }
 }

@@ -10,14 +10,24 @@ import vimification.model.LogicTaskList;
 
 public class DeleteLabelCommand extends UndoableLogicCommand {
 
-    public static final String COMMAND_WORD = "remove_tag";
+    public static final String COMMAND_WORD = "d -l";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": delete label to the task.\n"
+            + "Parameters: INDEX (index number of the target task in the displayed task list)\n"
+            + "          : NAME of label to be deleted\n"
+            + "Conditions: Index must be positive integer and cannot exceed total number of tasks.\n"
+            + "          : name of label must not be empty and must match exactly to an existing label.\n"
+            + "Example: " + COMMAND_WORD + " 1" + "cs2103T";
+
     public static final String SUCCESS_MESSAGE_FORMAT =
-            "The %1$s tag of Task %2$d has been removed.";
+            "label of task %1$s deleted.";
     public static final String UNDO_MESSAGE =
-            "The command has been undoed. The deleted tag has been added back.";
+            "The command has been undone. The label of the task has been changed back.";
+
+    private final Index targetIndex;
 
     private final String deletedLabel;
-    private final Index targetIndex;
 
     /**
      * Creates a RemoveTagCommand to add the specified {@code Task}
@@ -29,16 +39,17 @@ public class DeleteLabelCommand extends UndoableLogicCommand {
     }
 
     @Override
-    public CommandResult undo(LogicTaskList taskList) throws CommandException {
-        requireNonNull(taskList);
-        taskList.get(targetIndex.getZeroBased()).addLabel(deletedLabel);
-        return new CommandResult(UNDO_MESSAGE);
-    }
-
-    @Override
     public CommandResult execute(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
-        taskList.get(targetIndex.getZeroBased()).removeLabel(deletedLabel);
+        int zero_based_index = targetIndex.getZeroBased();
+        taskList.deleteLabel(zero_based_index, deletedLabel);
         return new CommandResult(String.format(SUCCESS_MESSAGE_FORMAT, deletedLabel, targetIndex));
+    }
+    @Override
+    public CommandResult undo(LogicTaskList taskList) throws CommandException {
+        requireNonNull(taskList);
+        int zero_based_index = targetIndex.getZeroBased();
+        taskList.addLabel(zero_based_index, deletedLabel);
+        return new CommandResult(UNDO_MESSAGE);
     }
 }

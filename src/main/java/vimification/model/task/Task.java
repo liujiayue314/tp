@@ -27,10 +27,36 @@ public class Task {
         this.labels = new HashSet<>();
     }
 
-    public Task(String title) {
-        // used when creating new tasks
+    public Task(String title) {            //new todo
         this(title, null, Status.NOT_DONE, Priority.UNKNOWN);
     }
+
+    public Task(String title, Status status) {        //new todo with status
+        this(title, null, status, Priority.UNKNOWN);
+    }
+
+    public Task(String title, Priority priority) {        //new todo with priority
+        // used when creating new tasks
+        this(title, null, Status.NOT_DONE, priority);
+    }
+
+    public Task(String title, Status status, Priority priority) {        //new todo with status and priority
+        // used when creating new tasks
+        this(title, null, status, priority);
+    }
+    public Task(String title, LocalDateTime deadline) {            //new deadline
+        this(title, deadline, Status.NOT_DONE, Priority.UNKNOWN);
+    }
+
+    public Task(String title, LocalDateTime deadline, Status status) {        //new deadline with status
+        this(title, deadline, status, Priority.UNKNOWN);
+    }
+
+    public Task(String title, LocalDateTime deadline, Priority priority) {        //new deadline with priority
+        // used when creating new tasks
+        this(title, deadline, Status.NOT_DONE, priority);
+    }
+
 
     public String getTitle() {
         return title;
@@ -92,7 +118,7 @@ public class Task {
         }
     }
 
-    public void removeLabel(String label) {
+    public void deleteLabel(String label) {
         requireNonNull(label);
         label = label.toLowerCase();
         if (!labels.remove(label)) {

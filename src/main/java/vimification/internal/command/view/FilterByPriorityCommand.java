@@ -5,31 +5,34 @@ import javafx.collections.ObservableList;
 import vimification.internal.command.CommandException;
 import vimification.internal.command.CommandResult;
 import vimification.model.LogicTaskList;
+import vimification.model.task.Priority;
 import vimification.model.task.Task;
 
-import java.time.LocalDateTime;
+import static java.util.Objects.requireNonNull;
 
+public class FilterByPriorityCommand extends FilterCommand {
 
-public class SearchByDateAfter extends SearchCommand {
-    public static final String COMMAND_WORD = "s -d -after";
+    public static final String COMMAND_WORD = "f -p";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": search for tasks that have deadline after (inclusive) the input date.\n"
-            + "Parameters: DATETIME \n"
-            + "Conditions: Date time must be valid in the format of YYYY-MM-DD.\n"
-            + "Example: " + COMMAND_WORD + " 2023-01-01";
+            + ": search for tasks that has the same priority as the input priority.\n"
+            + "Parameters: PRIORITY (high, med or low)\n"
+            + "Example: " + COMMAND_WORD + " high";
 
-    public SearchByDateAfter(LocalDateTime date) {
-        super(task -> task.isDateAfter(date));
+    public FilterByPriorityCommand(int level) {
+        super(task -> task.isSamePriority(level));
+    }
+
+    public FilterByPriorityCommand(Priority priority) {
+        super(task -> task.isSamePriority(priority));
     }
 
     @Override
     public CommandResult execute(LogicTaskList taskList) throws CommandException {
+        requireNonNull(taskList);
         ObservableList<Task> viewTaskList =
                 FXCollections.observableList(taskList.filter(getPredicate()));
         setViewTaskList(viewTaskList);
         return new CommandResult(SUCCESS_MESSAGE_FORMAT);
     }
-
 }
-

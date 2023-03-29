@@ -38,21 +38,17 @@ public class DeleteTaskCommand extends UndoableLogicCommand {
     public CommandResult execute(LogicTaskList taskList)
             throws IndexOutOfBoundsException, CommandException {
         requireNonNull(taskList);
-        deletedTask = taskList.remove(targetIndex.getZeroBased());
+        int zero_based_index = targetIndex.getZeroBased();
+        deletedTask = taskList.getTask(zero_based_index);
+        taskList.deleteTask(zero_based_index);
         return new CommandResult(String.format(SUCCESS_MESSAGE_FORMAT, deletedTask));
     }
 
     @Override
     public CommandResult undo(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
-        taskList.add(targetIndex.getZeroBased(), deletedTask);
+        taskList.addTask(targetIndex.getZeroBased(), deletedTask);
         return new CommandResult(String.format(UNDO_MESSAGE, deletedTask));
     }
 
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof DeleteTaskCommand // instanceof handles nulls
-                && targetIndex.equals(((DeleteTaskCommand) other).targetIndex));
-    }
 }

@@ -7,23 +7,31 @@ import vimification.internal.command.CommandResult;
 import vimification.model.LogicTaskList;
 import vimification.model.task.Task;
 
-public class SearchByKeywordCommand extends SearchCommand {
-    public static final String COMMAND_WORD = "s -t";
+import java.time.LocalDateTime;
+
+import static java.util.Objects.requireNonNull;
+
+public class FilterByDateBefore extends FilterCommand {
+    public static final String COMMAND_WORD = "f -d -before";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": search for tasks that has title matching with input keyword.\n"
-            + "Parameters: KEYWORD\n"
-            + "Conditions: Keyword cannot be empty.\n"
-            + "Example: " + COMMAND_WORD + " quiz";
-    public SearchByKeywordCommand(String keyword) {
-        super(task -> task.containsKeyword(keyword));
+            + ": search for tasks that have deadline before (inclusive) the input date.\n"
+            + "Parameters: DATETIME \n"
+            + "Conditions: Date time must be valid in the format of YYYY-MM-DD.\n"
+            + "Example: " + COMMAND_WORD + " 2023-01-01";
+
+    public FilterByDateBefore(LocalDateTime date) {
+        super(task -> task.isDateBefore(date));
     }
 
     @Override
     public CommandResult execute(LogicTaskList taskList) throws CommandException {
+        requireNonNull(taskList);
         ObservableList<Task> viewTaskList =
                 FXCollections.observableList(taskList.filter(getPredicate()));
         setViewTaskList(viewTaskList);
         return new CommandResult(SUCCESS_MESSAGE_FORMAT);
     }
+
 }
+

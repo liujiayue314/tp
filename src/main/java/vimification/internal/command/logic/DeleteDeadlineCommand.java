@@ -4,7 +4,6 @@ import vimification.commons.core.Index;
 import vimification.internal.command.CommandException;
 import vimification.internal.command.CommandResult;
 import vimification.model.LogicTaskList;
-import vimification.model.task.Task;
 
 import java.time.LocalDateTime;
 
@@ -35,16 +34,17 @@ public class DeleteDeadlineCommand extends UndoableLogicCommand {
     @Override
     public CommandResult execute(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
-        Task editedTask = taskList.get(targetIndex.getZeroBased());
-        oldDeadline = editedTask.getDeadline();
-        editedTask.deleteDeadline();
+        int zero_based_index = targetIndex.getZeroBased();
+        oldDeadline = taskList.getDeadline(zero_based_index);
+        taskList.deleteDeadline(zero_based_index);
         return new CommandResult(String.format(SUCCESS_MESSAGE_FORMAT, targetIndex.getOneBased()));
     }
 
     @Override
     public CommandResult undo(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
-        taskList.get(targetIndex.getZeroBased()).setDeadline(oldDeadline);
+        int zero_based_index = targetIndex.getZeroBased();
+        taskList.setDeadline(zero_based_index, oldDeadline);
         return new CommandResult(UNDO_MESSAGE);
     }
 
