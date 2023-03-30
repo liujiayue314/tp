@@ -18,4 +18,6 @@ public abstract class Command {
     public abstract CommandResult execute(LogicTaskList taskList) throws CommandException;
 
     public abstract ObservableList<Task> getViewTaskList();
+
+    public abstract boolean isLogicCommand();
 }

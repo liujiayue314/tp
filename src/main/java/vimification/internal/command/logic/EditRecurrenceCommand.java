@@ -1,22 +1,22 @@
 package vimification.internal.command.logic;
 
-import static java.util.Objects.requireNonNull;
-
 import vimification.commons.core.Index;
 import vimification.internal.command.CommandException;
 import vimification.internal.command.CommandResult;
 import vimification.model.LogicTaskList;
 import vimification.model.task.Priority;
 
-public class EditPriorityCommand extends UndoableLogicCommand {
-    public static final String COMMAND_WORD = "e -p";
+import static java.util.Objects.requireNonNull;
+
+public class EditRecurrenceCommand extends UndoableLogicCommand {
+    public static final String COMMAND_WORD = "e -r";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Edit priority level of a task.\n"
+            + ": Edit recurrence level of a task.\n"
             + "Parameters: INDEX (index number of the target task in the displayed task list)\n"
-            + "          : PRIORITY LEVEL (high, med or low)\n"
+            + "          : RECURRENCE (true or false)\n"
             + "Conditions: Index must be positive integer and cannot exceed total number of tasks.\n"
-            + "Example: " + COMMAND_WORD + " high" + " 1";
+            + "Example: " + COMMAND_WORD + " true" + " 1";
 
     public static final String SUCCESS_MESSAGE_FORMAT =
             "Priority of task %1$s updated.";
@@ -25,26 +25,21 @@ public class EditPriorityCommand extends UndoableLogicCommand {
 
     // targetIndex is ZERO-BASED
     private final Index targetIndex;
-    private final Priority newPriority;
-    private Priority oldPriority;
+    private final boolean newRecurrence;
+    private boolean oldRecurrence;
 
 
-    public EditPriorityCommand(Index targetIndex, Priority newPriority) {
+    public EditRecurrenceCommand(Index targetIndex, boolean newRecurrence) {
         this.targetIndex = targetIndex;
-        this.newPriority = newPriority;
-        this.oldPriority = null;
-    }
-
-    public EditPriorityCommand(Index targetIndex, int newLevel) {
-        this(targetIndex, Priority.fromInt(newLevel));
+        this.newRecurrence = newRecurrence;
     }
 
     @Override
     public CommandResult execute(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
         int zero_based_index = targetIndex.getZeroBased();
-        oldPriority = taskList.getPriority(zero_based_index);
-        taskList.setPriority(zero_based_index, newPriority);
+        oldRecurrence = taskList.getRecurrence(zero_based_index);
+        taskList.setRecurrence(zero_based_index, newRecurrence);
         return new CommandResult(String.format(SUCCESS_MESSAGE_FORMAT, targetIndex.getOneBased()));
     }
 
@@ -52,7 +47,7 @@ public class EditPriorityCommand extends UndoableLogicCommand {
     public CommandResult undo(LogicTaskList taskList) throws CommandException {
         requireNonNull(taskList);
         int zero_based_index = targetIndex.getZeroBased();
-        taskList.setPriority(zero_based_index, oldPriority);
+        taskList.setRecurrence(zero_based_index, oldRecurrence);
         return new CommandResult(UNDO_MESSAGE);
     }
 }

@@ -10,6 +10,7 @@ import vimification.commons.core.LogsCenter;
 import vimification.internal.command.Command;
 import vimification.internal.command.CommandException;
 import vimification.internal.command.CommandResult;
+import vimification.internal.command.logic.LogicCommand;
 import vimification.internal.parser.ParserException;
 import vimification.internal.parser.VimificationParser;
 import vimification.model.LogicTaskList;
@@ -43,17 +44,17 @@ public class LogicManager implements Logic {
     public CommandResult execute(String commandText) throws CommandException, ParserException {
         logger.info("[USER COMMAND] " + commandText);
 
-        // TODO : FIX THIS
         Command command = vimificationParser.parse(commandText);
         CommandResult result = command.execute(taskList);
-        updateViewTaskList(command);
-
-        // TODO: Fix this later
-        // Only save when the result indicates that the task list should be saved
-        try {
-            storage.saveLogicTaskList(taskList);
-        } catch (IOException ex) {
-            throw new CommandException(FILE_OPS_ERROR_MESSAGE + ex, ex);
+        //
+        if (command.isLogicCommand()) {
+            try {
+                storage.saveLogicTaskList(taskList);
+            } catch (IOException ex) {
+                throw new CommandException(FILE_OPS_ERROR_MESSAGE + ex, ex);
+            }
+        } else {
+            updateViewTaskList(command);
         }
         return result;
     }

@@ -13,4 +13,9 @@ public abstract class LogicCommand extends Command {
     public ObservableList<Task> getViewTaskList() {
         return null;
     }
+
+    @Override
+    public boolean isLogicCommand() {
+        return true;
+    }
 }

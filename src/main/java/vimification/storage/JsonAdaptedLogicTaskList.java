@@ -1,5 +1,6 @@
 package vimification.storage;
 
+import java.nio.file.Files;
 import java.util.List;
 // import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 // import vimification.commons.core.LogsCenter;
 import vimification.commons.exceptions.IllegalValueException;
+import vimification.commons.util.FileUtil;
 import vimification.model.LogicTaskList;
 import vimification.model.oldcode.Deadline;
 import vimification.model.task.Task;
@@ -52,7 +54,7 @@ public class JsonAdaptedLogicTaskList {
         LogicTaskList taskList = new LogicTaskList();
         for (JsonAdaptedTask jsonAdaptedTask : tasks) {
             Task task = jsonAdaptedTask.toModelType();
-            taskList.add(task);
+            taskList.addTask(task);
         }
         return taskList;
     }

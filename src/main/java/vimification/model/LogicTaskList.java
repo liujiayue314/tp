@@ -6,14 +6,12 @@ import static vimification.commons.util.CollectionUtil.requireAllNonNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import vimification.commons.core.Index;
 import vimification.model.task.Priority;
 import vimification.model.task.Status;
 import vimification.model.task.Task;
@@ -120,6 +118,12 @@ public class LogicTaskList {
         tasks.get(index).setStatus(newStatue);
     }
 
+    public boolean getRecurrence(int index) {return tasks.get(index).getRecurrence();}
+
+    public void setRecurrence(int index, boolean newRecurrence) {
+        tasks.get(index).setRecurrence(newRecurrence);
+    }
+
     public LocalDateTime getDeadline(int index) {
         return tasks.get(index).getDeadline();
     }
@@ -188,6 +192,12 @@ public class LogicTaskList {
                 .filter(pred)
                 .collect(Collectors.toCollection(ArrayList::new));
         return filteredTasks;
+    }
+
+    public void updateRecurrence() {
+        for (Task t : tasks) {
+            tasks.add(t.updateRecurrence());
+        }
     }
 
 

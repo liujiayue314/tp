@@ -12,49 +12,80 @@ public class Task {
     private String title;
     private LocalDateTime deadline;
     private Status status;
+    private boolean recurrence;
     private Priority priority;
     private Set<String> labels;
+
 
     /**
      * Every field must be present and not null.
      */
-    public Task(String title, LocalDateTime deadline, Status status, Priority priority) {
+    public Task(String title, LocalDateTime deadline, Status status, boolean recurrence, Priority priority) {
         requireAllNonNull(title, status, priority);
         this.title = title;
         this.deadline = deadline;
         this.status = status;
         this.priority = priority;
+        this.recurrence = recurrence;
         this.labels = new HashSet<>();
     }
 
-    public Task(String title) {            //new todo
-        this(title, null, Status.NOT_DONE, Priority.UNKNOWN);
+    public Task(String title) {
+        this(title, null, Status.NOT_DONE, false, Priority.UNKNOWN);
     }
 
     public Task(String title, Status status) {        //new todo with status
-        this(title, null, status, Priority.UNKNOWN);
+        this(title, null, status, false,Priority.UNKNOWN);
     }
 
-    public Task(String title, Priority priority) {        //new todo with priority
-        // used when creating new tasks
-        this(title, null, Status.NOT_DONE, priority);
+    public Task(String title, Priority priority) {
+        this(title, null, Status.NOT_DONE, false, priority);
     }
 
-    public Task(String title, Status status, Priority priority) {        //new todo with status and priority
-        // used when creating new tasks
-        this(title, null, status, priority);
-    }
-    public Task(String title, LocalDateTime deadline) {            //new deadline
-        this(title, deadline, Status.NOT_DONE, Priority.UNKNOWN);
+    public Task(String title, boolean recurrence) {
+        this(title, null, Status.NOT_DONE, recurrence, Priority.UNKNOWN);
     }
 
-    public Task(String title, LocalDateTime deadline, Status status) {        //new deadline with status
-        this(title, deadline, status, Priority.UNKNOWN);
+    public Task(String title, Status status, Priority priority) {
+        this(title, null, status, false, priority);
     }
 
-    public Task(String title, LocalDateTime deadline, Priority priority) {        //new deadline with priority
-        // used when creating new tasks
-        this(title, deadline, Status.NOT_DONE, priority);
+    public Task(String title, Status status, boolean recurrence) {
+        this(title, null, status, recurrence, Priority.UNKNOWN);
+    }
+
+    public Task(String title, boolean recurrence, Priority priority) {
+        this(title, null, Status.NOT_DONE, recurrence, priority);
+    }
+
+    public Task(String title, Status status, boolean recurrence, Priority priority) {
+        this(title, null, status, recurrence, priority);
+    }
+    public Task(String title, LocalDateTime deadline) {
+        this(title, deadline, Status.NOT_DONE,false, Priority.UNKNOWN);
+    }
+
+    public Task(String title, LocalDateTime deadline, Status status) {
+        this(title, deadline, status, false, Priority.UNKNOWN);
+    }
+
+    public Task(String title, LocalDateTime deadline, Priority priority) {
+        this(title, deadline, Status.NOT_DONE, false, priority);
+    }
+    public Task(String title, LocalDateTime deadline, boolean recurrence) {
+        this(title, deadline, Status.NOT_DONE, recurrence, Priority.UNKNOWN);
+    }
+
+    public Task(String title, LocalDateTime deadline, Status status, Priority priority) {
+        this(title, deadline, status, false, priority);
+    }
+
+    public Task(String title, LocalDateTime deadline, Status status, boolean recurrence) {
+        this(title, deadline, status, recurrence, Priority.UNKNOWN);
+    }
+
+    public Task(String title, LocalDateTime deadline,  boolean recurrence , Priority priority) {
+        this(title, deadline, Status.NOT_DONE, recurrence, priority);
     }
 
 
@@ -66,7 +97,10 @@ public class Task {
         requireNonNull(title);
         this.title = title;
     }
-
+    public boolean containsKeyword(String keyword) {
+        requireNonNull(keyword);
+        return title.contains(keyword);
+    }
     public LocalDateTime getDeadline() {
         return deadline;
     }
@@ -78,6 +112,18 @@ public class Task {
 
     public void deleteDeadline() {
         this.deadline = null;
+    }
+    public void updateDeadline() {
+        if (this.deadline != null) {
+            deadline = deadline.plusWeeks(1);
+        }
+    }
+    public boolean isDateBefore(LocalDateTime date) {
+        return deadline != null && (deadline.isBefore(date) || deadline.isEqual(date));
+    }
+
+    public boolean isDateAfter(LocalDateTime date) {
+        return deadline != null && (deadline.isAfter(date) || deadline.isEqual(date));
     }
 
     public Status getStatus() {
@@ -93,6 +139,19 @@ public class Task {
         this.status = Status.fromInt(level);
     }
 
+    public boolean getRecurrence() { return recurrence; }
+
+    public void setRecurrence(boolean recurrence) {
+        this.recurrence = recurrence;
+    }
+
+    public Task updateRecurrence() {
+        Task newTask = this.clone();
+        newTask.updateDeadline();
+        newTask.setStatus(Status.NOT_DONE);
+        return newTask;
+    }
+
     public Priority getPriority() {
         return priority;
     }
@@ -106,8 +165,12 @@ public class Task {
         this.priority = Priority.fromInt(level);
     }
 
-    public boolean containsKeyword(String keyword) {
-        return title.contains(keyword);
+    public boolean isSamePriority(Priority priority) {
+        return this.priority.equals(priority);
+    }
+
+    public boolean isSamePriority(int level) {
+        return isSamePriority(Priority.fromInt(level));
     }
 
     public void addLabel(String label) {
@@ -130,24 +193,9 @@ public class Task {
         return labels.contains(label.toLowerCase());
     }
 
-    public boolean isSamePriority(Priority priority) {
-        return this.priority.equals(priority);
-    }
-
-    public boolean isSamePriority(int level) {
-        return isSamePriority(Priority.fromInt(level));
-    }
-
-    public boolean isDateBefore(LocalDateTime date) {
-        return deadline != null && (deadline.isBefore(date) || deadline.isEqual(date));
-    }
-
-    public boolean isDateAfter(LocalDateTime date) {
-        return deadline != null && (deadline.isAfter(date) || deadline.isEqual(date));
-    }
 
     public Task clone() {
-        Task clonedTask = new Task(title, deadline, status, priority);
+        Task clonedTask = new Task(title, deadline, status, recurrence, priority);
         clonedTask.labels.addAll(labels);
         return clonedTask;
     }
