@@ -289,7 +289,7 @@ Format: `:f [-w <"keyword"] [-d --before/after <date>] [-s <status>] [-p <priori
 
 | Parameter    | Detail                                          | Example        |
 | ------------ | ----------------------------------------------- | -------------- |
-| `<title>`    | Title of task to filter                         | `"CS2103T UG"` |
+| `<keyword>`  | Keyword of title of task to filter              | `"CS2103T UG"` |
 | `<date>`     | Date of the task to filter before or after      | `2023-03-31`   |
 | `<status>`   | Status of task to filter                        | `2`            |
 | `<priority>` | Priority level of task to filter                | `1`            |
