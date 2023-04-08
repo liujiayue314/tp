@@ -136,18 +136,10 @@ public class TaskListPanel extends UiPart<VBox> {
     }
 
     public void searchForTask(Predicate<? super Task> predicate) {
-        taskList.setPredicate(predicate);
+        taskList.filter(predicate);
     }
 
     public void refreshTaskDetailPanel() {
-        Task selectedTask = taskListView.getSelectionModel().getSelectedItem();
-
-        if (selectedTask == null) {
-            mainScreen.clearRightComponent();
-            return;
-        }
-
-        TaskDetailPanel taskDetailPanel = new TaskDetailPanel(selectedTask);
-        mainScreen.loadRightComponent(taskDetailPanel);
+        taskList.refresh();
     }
 }

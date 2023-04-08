@@ -98,6 +98,7 @@ public class TaskTabPanel extends UiPart<VBox> {
 
         switch (selectedTabIndex) {
         case 0:
+
             ongoingTaskListPanel.searchForTask(predicate);
             break;
         case 1:
@@ -157,7 +158,6 @@ public class TaskTabPanel extends UiPart<VBox> {
 
     public void refreshTaskDetailPanel() {
         int selectedTabIndex = taskTabPane.getSelectionModel().getSelectedIndex();
-
         switch (selectedTabIndex) {
         case 0:
             ongoingTaskListPanel.refreshTaskDetailPanel();

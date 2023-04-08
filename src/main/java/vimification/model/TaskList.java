@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import vimification.model.task.Status;
 import vimification.model.task.Task;
 
 /**
@@ -21,6 +22,7 @@ public class TaskList implements LogicTaskList, UiTaskList {
     private final ObservableList<Task> allTasks;
     private final FilteredList<Task> filteredTasks;
     private final SortedList<Task> sortedTasks;
+    private Predicate<? super Task> predicate;
 
     /**
      * Creates a new {@code TaskList} instance, with the specified tasks as its content.
@@ -31,6 +33,7 @@ public class TaskList implements LogicTaskList, UiTaskList {
         this.allTasks = FXCollections.observableArrayList(tasks);
         this.filteredTasks = new FilteredList<>(allTasks);
         this.sortedTasks = new SortedList<>(filteredTasks);
+        this.predicate = null;
     }
 
     /**
@@ -102,8 +105,21 @@ public class TaskList implements LogicTaskList, UiTaskList {
 
     @Override
     public void setPredicate(Predicate<? super Task> predicate) {
+        this.predicate = predicate;
         filteredTasks.setPredicate(predicate);
     }
+
+    @Override
+    public void filter(Predicate<? super Task> predicate) {
+        filteredTasks.setPredicate(x -> predicate.test(x) && this.predicate.test(x));
+    }
+
+    @Override
+    public void refresh() {
+        filteredTasks.setPredicate(predicate);
+        setComparator(null);
+    }
+
 
     @Override
     public void setComparator(Comparator<? super Task> comparator) {

@@ -32,6 +32,10 @@ public interface UiTaskList {
      */
     public void setPredicate(Predicate<? super Task> predicate);
 
+    public void filter(Predicate<? super Task> predicate);
+
+    public void refresh();
+
     /**
      * Gets the comparator used to order the displayed tasks.
      *
