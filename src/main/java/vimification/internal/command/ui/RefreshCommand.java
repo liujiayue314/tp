@@ -16,9 +16,16 @@ public class RefreshCommand extends UiCommand {
      */
     public RefreshCommand() {}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CommandResult execute(MainScreen mainScreen) {
-        mainScreen.getTaskTabPanel().refreshTaskDetailPanel();
+        UiTaskList taskList = mainScreen.getTaskListPanel()
+                .getUiTaskList();
+        taskList.setPredicate(null);
+        taskList.setComparator(null);
+        mainScreen.getTaskListPanel().refreshTaskDetailPanel();
         return new CommandResult(SUCCESS_MESSAGE);
     }
 
