@@ -4,13 +4,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import vimification.model.task.Status;
 import vimification.model.task.Task;
 
 /**
@@ -136,4 +136,17 @@ public class TaskList implements LogicTaskList, UiTaskList {
         return "TaskList [allTasks=" + allTasks + ", filteredTasks=" + filteredTasks
                 + ", sortedTasks=" + sortedTasks + "]";
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+        if (!(other instanceof TaskList)) {
+            return false;
+        }
+        TaskList otherTaskList = (TaskList) other;
+        return this.allTasks.equals(otherTaskList.allTasks);
+    }
+
 }

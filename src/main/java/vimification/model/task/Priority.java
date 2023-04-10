@@ -8,7 +8,7 @@ public enum Priority {
     UNKNOWN, VERY_URGENT, URGENT, NOT_URGENT;
 
     /**
-     * Possible helper function used by the parser. Help parser processes Integer input (as an
+     * Helper function used by the parser. Help parser processes Integer input (as an
      * alternative input) to return the corresponding Priority enum. 1 being the highest priority, 3
      * being the lowest priority. Other integers will be treated as unknown priority.
      */

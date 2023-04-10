@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import vimification.common.core.Config;
 import vimification.common.core.LogsCenter;
 import vimification.common.exceptions.DataConversionException;
+import vimification.common.exceptions.IllegalValueException;
 import vimification.common.util.JsonUtil;
 import vimification.common.util.StringUtil;
 import vimification.internal.Logic;

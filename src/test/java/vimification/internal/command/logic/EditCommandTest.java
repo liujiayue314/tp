@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-import vimification.TestUtil;
+import vimification.testutil.TestUtil;
 import vimification.common.core.Index;
 import vimification.internal.parser.Pair;
 import vimification.model.CommandStack;

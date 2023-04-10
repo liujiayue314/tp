@@ -1,4 +1,4 @@
-package vimification;
+package vimification.testutil;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import vimification.TestUtil;
+import vimification.testutil.TestUtil;
 import vimification.common.core.Index;
 import vimification.model.CommandStack;
 import vimification.model.LogicTaskList;

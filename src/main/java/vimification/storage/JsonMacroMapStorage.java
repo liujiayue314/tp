@@ -7,7 +7,7 @@ import vimification.common.util.JsonUtil;
 import vimification.model.MacroMap;
 
 /**
- * One implementation of {@link MacroMapStorage}, using JSON as serialization format.
+ * A class to access {@link MacroMap} stored in the hard disk as a json file.
  */
 public class JsonMacroMapStorage implements MacroMapStorage {
 

@@ -23,8 +23,10 @@ public class JsonAdaptedTask {
     private final LocalDateTime deadline;
     private final List<String> labels;
 
+    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Task's %s field is missing!";
+
     /**
-     * The constructor used by Jackson.
+     * Constructs a {@code JsonAdaptedTask} with the given task details.
      *
      * @param title title of the task
      * @param status current status of the task
@@ -61,7 +63,7 @@ public class JsonAdaptedTask {
     }
 
     /**
-     * Converts this instance into an actual {@code Task}.
+     * Converts this Jackson-friendly adapted task object into the model's {@code Task} object.
      *
      * @return a {@code Task}, as a result of the conversion
      * @throws DataConversionException if there is any error occured during the conversion

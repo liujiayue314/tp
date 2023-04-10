@@ -51,7 +51,7 @@ public class JsonUtil {
      * @throws JsonProcessingException if the object cannot be converted to JSON
      */
     static <T> T deserializeObjectFromJsonFile(Path filePath, Class<T> classOfObject)
-            throws IOException {
+            throws IOException{
         return fromJsonString(FileUtil.readFromFile(filePath), classOfObject);
     }
 

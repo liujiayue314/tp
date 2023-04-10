@@ -17,10 +17,12 @@ public interface MacroMapStorage {
      */
     Path getMacroMapFilePath();
 
+
     /**
-     * Returns MacroMap data as a {@link MacroMap}. Returns {@code Optional.empty()} if storage file
-     * is not found.
+     * Reads from the data file and constructs a {@link MacroMap} instance from the data read.
+     * Returns {@code Optional.empty()} if storage file is not found.
      *
+     * @return a {@code MacroMap} instance constructed from the file data
      * @throws IOException if there was any problem when reading from the storage.
      */
     MacroMap readMacroMap() throws IOException;
@@ -28,8 +30,8 @@ public interface MacroMapStorage {
     /**
      * Save the given {@link MacroMap} to the storage.
      *
-     * @param macroMap cannot be null.
-     * @throws IOException if there was any problem writing to the file.
+     * @param macroMap the {@code MacroMap} instance to be saved
+     * @throws IOException if there is any problem when writing to the file
      */
     void saveMacroMap(MacroMap macroMap) throws IOException;
 }

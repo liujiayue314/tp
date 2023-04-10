@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import vimification.common.exceptions.DataConversionException;
+import vimification.common.exceptions.IllegalValueException;
 import vimification.model.TaskList;
 import vimification.model.task.Task;
 
@@ -19,7 +20,7 @@ public class JsonAdaptedTaskList {
     private final List<JsonAdaptedTask> tasks;
 
     /**
-     * The constructor used by Jackson.
+     * Constructs  {@code JsonAdaptedTaskList} with the given taskList.
      *
      * @param tasks a list of tasks
      */
@@ -44,10 +45,10 @@ public class JsonAdaptedTaskList {
     }
 
     /**
-     * Converts this instance into an actual {@code TaskList}.
+     * Converts this Jackson-friendly adapted TaskList object into the model's {@code TaskList} object.
      *
      * @return a {@code TaskList}, as a result of the conversion
-     * @throws DataConversionException if there is any error occured during the conversion
+     * @throws DataConversionException if there is any data constraints violated in the adapted TaskList.
      */
     public TaskList toModelType() throws DataConversionException {
         List<Task> modelTasks = new ArrayList<>();

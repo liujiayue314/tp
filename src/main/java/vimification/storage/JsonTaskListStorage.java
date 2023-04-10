@@ -3,7 +3,9 @@ package vimification.storage;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import vimification.common.exceptions.DataConversionException;
+import vimification.common.exceptions.IllegalValueException;
 import vimification.common.util.JsonUtil;
 import vimification.model.TaskList;
 
@@ -42,10 +44,30 @@ public class JsonTaskListStorage implements TaskListStorage {
     }
 
     /**
+     * Similar to {@link #readTaskList()}. Used for testing
+     *
+     * @param filePath location of the data. Cannot be null.
+     * @throws DataConversionException if the file is not in the correct format.
+     */
+    public TaskList readTaskList(Path filePath) throws DataConversionException, IOException {
+        JsonAdaptedTaskList j = JsonUtil.readJsonFile(filePath, JsonAdaptedTaskList.class);
+        return j.toModelType();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public void saveTaskList(TaskList taskList) throws IOException {
+        JsonUtil.saveJsonFile(new JsonAdaptedTaskList(taskList), filePath);
+    }
+
+    /**
+     * Similar to {@link #saveTaskList(TaskList)}. Used for testing
+     *
+     * @param filePath location of the data. Cannot be null.
+     */
+    public void saveTaskList(TaskList taskList, Path filePath) throws IOException {
         JsonUtil.saveJsonFile(new JsonAdaptedTaskList(taskList), filePath);
     }
 }
