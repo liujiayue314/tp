@@ -1,0 +1,13 @@
+{
+  "guiSettings": {
+    "windowWidth": 1000.0,
+    "windowHeight": 600.0,
+    "extra" : "some value ",
+    "windowCoordinates": {
+      "x": 270,
+      "y": 50
+    },
+    "taskListFilePath": ".vimification\\tasklist.json",
+    "macroMapFilePath": ".vimification\\macro.json"
+  }
+}
