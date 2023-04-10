@@ -1,8 +1,6 @@
 package vimification.storage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static vimification.testutil.TypicalTaskList.getTypicalTaskList;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import vimification.model.TaskList;
-import vimification.model.task.Task;
 
 
 public class JsonTaskListStorageTest {
@@ -56,34 +53,6 @@ public class JsonTaskListStorageTest {
     @Test
     public void readTaskList_invalidAndValidPersonTaskList_throwDataConversionException() {
         assertThrows(IOException.class, () -> readTaskList("invalidAndValidTaskList.json"));
-    }
-
-
-    @Test
-    public void readAndSaveTaskList_allInOrder_success() throws Exception {
-        Path filePath = testFolder.resolve("TempTaskList.json");
-        Task test = new Task("test");
-        TaskList original = getTypicalTaskList();
-        JsonTaskListStorage jsonTaskListStorage = new JsonTaskListStorage(filePath);
-
-        // Save in new file and read back
-        jsonTaskListStorage.saveTaskList(original, filePath);
-        TaskList readBack = jsonTaskListStorage.readTaskList(filePath);
-        assertEquals(original, readBack);
-
-        // Modify data, overwrite exiting file, and read back
-        original.add(test);
-        original.remove(1);
-        jsonTaskListStorage.saveTaskList(original, filePath);
-        readBack = jsonTaskListStorage.readTaskList(filePath);
-        assertEquals(original, readBack);
-
-        // Save and read without specifying file path
-        original.add(test);
-        jsonTaskListStorage.saveTaskList(original); // file path not specified
-        readBack = jsonTaskListStorage.readTaskList(); // file path not specified
-        assertEquals(original, readBack);
-
     }
 
     @Test

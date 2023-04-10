@@ -39,6 +39,16 @@ public class JsonUserPrefsStorage implements UserPrefsStorage {
     }
 
     /**
+     * Similar to {@link #readUserPrefs()}. Used for testing.
+     *
+     * @param prefsFilePath location of the data. Cannot be null.
+     * @throws IOException if the file format is not as expected.
+     */
+    public UserPrefs readUserPrefs(Path prefsFilePath) throws IOException {
+        return JsonUtil.readJsonFile(prefsFilePath, UserPrefs.class);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
