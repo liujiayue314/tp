@@ -3,6 +3,15 @@ layout: page
 title: Developer Guide
 ---
 
+
+=======
+## **Overview**
+
+Vimification is a **desktop app for managing to-do and deadlines, optimized for use via a Command Line Interface** (CLI) **that uses vim-like command syntax** while still having the benefits of a Graphical User Interface (GUI).
+
+If you're interested in contributing to the Vimification project, this Developer Guide will assist you in becoming acquainted with Vimification's architecture, as well as comprehending the design decisions and key feature implementations.
+
+
 ## **Table of Contents**
 
 - [Acknowledgements](#acknowledgements)
@@ -189,12 +198,6 @@ Classes used by multiple components are in the `vimificationbook.common` package
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
-
-<!-- ### Architechture modification to AB3
-
-Vimification uses the **Model–view–controller (MVC)** design pattern. One detail we observed is that the `Model` uses `ObservableList` to carry application data, however, we argued that this is not the optimal design, since `ObservableList` should be used for `view`. Vimification implementation makes the view and bussiness logic bundled together, hinder our development speed.
-
-Therefore, we wish to improve the current design of the application. \<The design will be finalized soon\>. -->
 
 
 ### ApplicativeParser\<T\>
@@ -513,6 +516,7 @@ Note that, the command classes do not interact directly with `TaskList`, but wit
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
+<<<<<<< HEAD
 | Priority | As a …​                   | I want to …​                                                     | So that I can…​                                           |
 | -------- | ------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------- |
 | `* * *`  | SoC Student who knows Vim | use my task planner fast and efficiently                         | reduce time spent on editing the task planner             |
@@ -538,13 +542,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | SoC Student who knows Vim | sort tasks by priorities in descending order                     | see which are the more important tasks I should focus on completing first |
 | `* * *`  | SoC Student who knows Vim | sort based on the filtered list                                  | sort only the tasks that are from a certain category      |
 | `* * *`  | SoC Student who knows Vim | edit and delete based on the sorted list                         | make changes to the list of task easily                   |
-| `* *`    | SoC Student who knows Vim | refresh the task list                                            | go to the original task after sorting or filter           |
-| `* *`    | SoC Student who knows Vim | undo an action                                                   | revert to the previous state if something is done wrongly |
-| `* * *`  | SoC Student who knows Vim | use macro commands to customise a shortcuts for longer commands  | use a short keyword instead of the full command for recurring tasks |
-| `* *`    | SoC Student who knows Vim | config the storage location of the file                          | customize the location to my own preference for easy reference |
-| `* * *`  | SoC Student who knows Vim | view tasks with priorities in different color                    | visualize the important tasks more easily |
-| `* * *`  | New user                  | use :help                                                  | to access a brief user guide of all the commands and intended use cases of each command |
-
+| `* * *`    | SoC Student who knows Vim | refresh the task list                                            | go to the original task after sorting or filter           |
+| `* * *`  | SoC Student who knows Vim | use macro commands to customise a shortcuts for longer commands  | use a short keyword instead of the full command for recurring tasks |  
+| `* * *`  | New user                  | be able to access a briefer version of the user guide without the need to leave the app | save the hassle of leaving and coming back to the app while referring to the user guide |
+| `* *` | SoC Student who knows Vim | undo an action | revert to the previous state if I have made a mistake or any unintended change to my tasks in the task planner |
+| `* *` | SoC Student who knows Vim | pre-save the actions of adding or deleting a certain task as shortcuts | save time by streamlining the process of carrying out these actions, as compared to doing it the usual way |
+| `* *` | SoC Student who knows Vim | view tasks with different priorities using different indicating colors | notice the urgent/important tasks more easily |
+| `* *` | SoC Student who knows Vim | configure the storage location of the file | customise the storage location to my own preference, allowing me to refer to it easily in future |
 
 ### Use cases
 
