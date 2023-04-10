@@ -4,7 +4,6 @@ title: Developer Guide
 ---
 
 
-=======
 ## **Overview**
 
 Vimification is a **desktop app for managing to-do and deadlines, optimized for use via a Command Line Interface** (CLI) **that uses vim-like command syntax** while still having the benefits of a Graphical User Interface (GUI).
