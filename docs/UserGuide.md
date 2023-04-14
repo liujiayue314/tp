@@ -31,7 +31,7 @@ title: User Guide
   - [Refreshing task list](#refreshing-task-list)
   - [Undoing the previous command](#undoing-the-previous-command)
   - [Using macro](#using-macro)
-  - [Defining new macro](#defining-new-macro)
+  - [Adding a macro](#adding-a-macro)
   - [Deleting a macro](#deleting-a-macro)
   - [View all macros defined in the application](#view-all-macros-defined-in-the-application)
   - [Exiting the application](#exiting-the-application)
@@ -581,14 +581,17 @@ Sometimes we might be adding the exact same task every week, say `:a "Do CS2103 
 
 Macro is a customisable template-like command, to streamline the process of running repeated commands. For example, you can define a macro `cs2103t` that maps to `a "Do CS2103 weekly quiz" -d Fri 14:00`. Afterward, whenever you type `:cs2103t`, your input will be transformed into `:a "Do CS2103 weekly quiz" -d Fri 14:00`.
 
-### Defining new macro
+### Adding a macro
 
 Format: `:macro -a <macro> <command_string>`
 
 | Parameter          | Detail                                         | Example          |
 | ------------------ | ---------------------------------------------- | ---------------- |
-| `<macro>`          | The macro to be defined, can only be one word  | `l2103`          |
-| `<command_string>` | The command string to be mapped with the macro | `"f -l cs2103t"` |
+| `<macro>`          | The macro to be defined, can only be one word  | `CS2103T`          |
+| `<command_string>` | The command string to be mapped with the macro | `"a 'CS2103T quiz' -d Fri 14:00"` |
+
+Example of command:
+1. `:macro -a CS2103T "a 'CS2103T quiz' -d Fri 14:00"`. Users can now use the shortcut `:CS2103T` to add the task.
 
 Note:
 
@@ -602,7 +605,10 @@ Format: `macro -d <macro>`
 
 | Parameter | Detail                                        | Example |
 | --------- | --------------------------------------------- | ------- |
-| `<macro>` | The macro to be deleted, can only be one word | `l2103` |
+| `<macro>` | The macro to be deleted, can only be one word | `CS2103T` |
+
+Example of command:
+1. `:macro -d CS2103T`
 
 ### View all macros defined in the application
 
